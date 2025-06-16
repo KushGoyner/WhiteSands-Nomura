@@ -19,3 +19,7 @@
     animation-play-state: paused;
   }
 }
+
+@theme{
+  --color-gold: '#FFD700',
+}
