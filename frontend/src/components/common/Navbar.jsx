@@ -51,13 +51,6 @@ const Navbar = () => {
               <HiOutlineUser className="h-5 w-5 text-green-600" />
             </Link>
 
-            <Link
-              to="/donate"
-              className="flex items-center px-4 py-1.5 text-sm rounded bg-green-500 text-white hover:bg-green-600 font-medium"
-            >
-              Donate
-              <BiDonateHeart className="ml-2 h-5 w-5" />
-            </Link>
             
             </>
           ):(
@@ -67,6 +60,13 @@ const Navbar = () => {
               </>
           )}
 
+            <Link
+              to="/donate"
+              className="flex items-center px-4 py-1 text-sm rounded bg-green-500 text-white hover:bg-green-600 font-medium"
+            >
+              Donate
+              <BiDonateHeart className="ml-2 h-5 w-5" />
+            </Link>
             {/* Mobile Menu Button */}
             <button
               onClick={toggleNavDrawer}

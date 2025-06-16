@@ -1,6 +1,7 @@
 import { Outlet } from 'react-router-dom'
 import Header from '../common/Header'
 import Footer from '../common/Footer'
+import Chatbot from './Chatbot'
 
 const UserLayout = () => {
   return (
@@ -10,12 +11,9 @@ const UserLayout = () => {
         <Outlet/>
       </main>
       <Footer/>
+      <Chatbot/>
     </>
   )
 }
 
 export default UserLayout 
-
-
-
-// Home Page of WhiteSands 
