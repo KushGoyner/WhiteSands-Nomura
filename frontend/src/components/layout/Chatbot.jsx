@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { IoMdClose } from 'react-icons/io';
 import { RiChatSmileAiLine } from "react-icons/ri";
 import { IoSend } from "react-icons/io5";
+import axios from 'axios'
 
 const Chatbot = () => {
   const [open, setOpen] = useState(false);
@@ -21,28 +22,25 @@ const Chatbot = () => {
   }, [messages, open]);
 
   const handleSendMessage = async () => {
-    if (!message.trim()) return;
+  if (!message.trim()) return;
 
-    const newMessage = { sender: 'user', text: message.trim() };
-    setMessages(prev => [...prev, newMessage]);
-    setMessage("");
-    setLoading(true);
+  const newMessage = { sender: 'user', text: message.trim() };
+  setMessages(prev => [...prev, newMessage]);
+  setMessage("");
+  setLoading(true);
 
-    
-    setTimeout(() => {
-      const botReply = getBotReply(message);
-      setMessages(prev => [...prev, { sender: 'bot', text: botReply }]);
-      setLoading(false);
-    }, 1000);
-  };
+  try {
+    const response = await axios.post("http://localhost:3000/api/ai/chat", { message });
+    const reply = response.data.response;
+    setMessages(prev => [...prev, { sender: 'bot', text: reply }]);
+  } catch (error) {
+    console.error(error);
+    setMessages(prev => [...prev, { sender: 'bot', text: "Sorry, I couldn't understand that." }]);
+  } finally {
+    setLoading(false);
+  }
+};
 
-  const getBotReply = (msg) => {
-    msg = msg.toLowerCase();
-    if (msg.includes("hello") || msg.includes("hi")) return "Hello! 👋 How can I assist you today?";
-    if (msg.includes("help")) return "Sure! Tell me what you need help with.";
-    if (msg.includes("bye")) return "Goodbye! Have a great day 😊";
-    return "I'm not sure how to respond to that yet, but I'm learning!";
-  };
 
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') handleSendMessage();

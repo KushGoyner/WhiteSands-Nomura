@@ -1,24 +1,30 @@
 const express  = require('express');
-const cors = require('cors')
+const cors = require('cors');
 const dotenv = require('dotenv');
-const connectDB = require("./config/db")
+
+// ✅ Load .env FIRST before any imports that use process.env
+dotenv.config();
+
+const connectDB = require("./config/db");
+const aiRoutes  = require('./routes/aiRoutes');
 
 const app = express();
-
 app.use(express.json());
 app.use(cors());
 
-dotenv.config();
-
 const PORT = process.env.PORT || 9000;
 
-// Connect to Mongodb
+// ✅ Connect to MongoDB
 connectDB();
 
-app.get('/',(req,res)=>{
-    res.send("Server Running")
-})
+app.get('/', (req, res) => {
+    res.send("Server Running");
+});
 
-app.listen(PORT,()=>{
-    console.log(`Server is running on http://localhost:${PORT}`)
-})
+// ✅ Route for AI endpoints
+app.use('/api/ai', aiRoutes);
+
+// ✅ Start server
+app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+});
